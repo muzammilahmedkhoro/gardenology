@@ -44,9 +44,6 @@ app.get('/api/categories', async (req, res) => {
         res.status(500).json({ error: 'Database error fetching categories' });
     }
 });
-  }
-});
-
 // API Endpoint: Submit seller application
 // app.post('/api/sellers', async (req, res) => {
 //   try {
