@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2/promise');
+const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
@@ -12,17 +12,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection pool setup
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'gardenology_db',
-    port: 3307,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Database connected successfully!'))
+  .catch((err) => console.log('Database connection error:', err));
 
 // Middleware to log requests
 app.use((req, res, next) => {
