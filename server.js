@@ -24,24 +24,26 @@ app.use((req, res, next) => {
 });
 
 // API Endpoint: Get all categories
+// Naya MongoDB approach
 app.get('/api/categories', async (req, res) => {
-  try {
-    const [rows] = await pool.query('SELECT * FROM categories');
-    res.json(rows);
-  } catch (err) {
-    console.error('Error fetching categories:', err);
-    res.status(500).json({ error: 'Database error fetching categories' });
-  }
+    try {
+        const categories = await Category.find(); // Yahan aapka Model use hoga
+        res.json(categories);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-// API Endpoint: Get all products
-app.get('/api/products', async (req, res) => {
-  try {
-    const [rows] = await pool.query('SELECT * FROM products');
-    res.json(rows);
-  } catch (err) {
-    console.error('Error fetching products:', err);
-    res.status(500).json({ error: 'Database error fetching products' });
+// MongoDB se data fetch karne ka naya code
+app.get('/api/categories', async (req, res) => {
+    try {
+        // Yahan 'Category' aapka Mongoose model hona chahiye
+        const categories = await Category.find(); 
+        res.json(categories);
+    } catch (err) {
+        res.status(500).json({ error: 'Database error fetching categories' });
+    }
+});
   }
 });
 
